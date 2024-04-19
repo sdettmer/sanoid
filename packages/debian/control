@@ -1,7 +1,7 @@
 Source: sanoid
 Section: utils
 Priority: optional
-Maintainer: Jim Salter <jim@openoid.net>
+Maintainer: Jim Salter <jim@openoid.net>, Steffen Dettmer <steffen.dettmer@gmail.com>
 Build-Depends: debhelper (>= 10)
 Standards-Version: 4.1.2
 Homepage: https://github.com/jimsalterjrs/sanoid
