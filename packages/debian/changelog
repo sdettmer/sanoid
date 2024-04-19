@@ -1,3 +1,7 @@
+sanoid (2.1.0.2) unstable; urgency=medium
+
+  [sanoid]    added support for syncoid snap pruning
+
 sanoid (2.1.0) unstable; urgency=medium
 
   [overall]   documentation updates, small fixes (@HavardLine, @croadfeldt, @jimsalterjrs, @jim-perkins, @kr4z33, @phreaker0)
