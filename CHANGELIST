@@ -1,4 +1,4 @@
-2.1.0.2 [sanoid]   added support for syncoid snap pruning
+2.1.0.3 [sanoid]   added support for syncoid snap pruning
 
 2.1.0  [overall]   documentation updates, small fixes (@HavardLine, @croadfeldt, @jimsalterjrs, @jim-perkins, @kr4z33, @phreaker0)
        [syncoid]   do not require user to be specified for syncoid (@aerusso)
