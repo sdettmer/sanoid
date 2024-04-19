@@ -44,7 +44,7 @@ my $zfs = 'zfs';
 my $zpool = 'zpool';
 
 my $conf_file = "$args{'configdir'}/sanoid.conf";
-my $default_conf_file = "$args{'configdir'}/sanoid.defaults.conf";
+my $default_conf_file = "/usr/share/sanoid/sanoid.defaults.conf";
 
 # parse config file
 my %config = init($conf_file,$default_conf_file);
@@ -305,12 +305,14 @@ sub prune_snapshots {
 
 				my @prunesnaps;
 				foreach my $snap( @sorted ){
-					# print "snap $path\@$snap has age $snaps{$path}{$snap}{'ctime'}, maxage is $maxage.\n";
+					# print "snap $path\@$snap has age $snaps{$path}{$snap}{'ctime'}, maxage is $maxage, diff=", $snaps{$path}{$snap}{'ctime'} - $maxage, ".\n";
 					if ( ($snaps{$path}{$snap}{'ctime'} < $maxage) && ($numsnapsthistype > $minsnapsthistype) ) {
 						my $fullpath = $path . '@' . $snap;
 						push(@prunesnaps,$fullpath);
 						# we just got rid of a snap, so we now have one fewer, duh
 						$numsnapsthistype--;
+					} else {
+					        # print "KEEP snap $path\@$snap.\n";
 					}
 				}
 
@@ -340,7 +342,7 @@ sub prune_snapshots {
 											delete $ENV{'SANOID_SCRIPT'};
 										}
 									} else {
-										warn "could not remove $snap : $?";
+										warn "could not remove \`$snap' : $?";
 									}
 								}
 							}
@@ -833,6 +835,18 @@ sub getsnaps {
 		if (defined $snapname) {
 			my ($snaptype) = ($snapname =~ m/.*_(\w*ly)/);
 			if ($snapname =~ /^autosnap/) {
+				$snaps{$fs}{$snapname}{'ctime'}=$snapdate;
+				$snaps{$fs}{$snapname}{'type'}=$snaptype;
+			}
+		}
+	}
+	foreach my $snap (@rawsnaps) {
+		my ($fs,$snapname,$snapdate) = ($snap =~ m/(.*)\@(syncoid\S+)\t*creation\t*(\d*)/);
+
+		# avoid pissing off use warnings
+		if (defined $snapname) {
+			my ($snaptype) = "frequently";
+			if ($snapname =~ /^syncoid/) {
 				$snaps{$fs}{$snapname}{'ctime'}=$snapdate;
 				$snaps{$fs}{$snapname}{'type'}=$snaptype;
 			}
